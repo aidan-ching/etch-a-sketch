@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="controls">
+        <button id="clear">Clear</button>
+        <input type="range" min="16" max="64" value="16" class="slider">
+    </div>
+
+    <div id="center">
+
+    </div>
+
+</body>
+
+
+<script>
+    let size = 16;  //default size
+
+    
+
+    function generateGrid(size) {
+        const container = document.querySelector('#center');
+
+        let numberOfPixels = Math.pow(size, 2);
+        for (let i = 0; i < numberOfPixels; i++) {
+            const pixel = document.createElement('div');
+            pixel.classList.add('pixel');
+            pixel.style.width = String(400 / size) + "px";
+            pixel.style.height = String(400 / size) + "px";
+            pixel.addEventListener('mouseover', function(){pixel.classList.add('filledIn')});
+            container.appendChild(pixel);
+        }
+    }
+
+    function resizeGrid(size) {
+        const container = document.querySelector('#center');
+        
+        const pixels = document.querySelectorAll('.pixel');
+        pixels.forEach(pixel => {
+            container.removeChild(pixel);
+        });
+
+        generateGrid(size);
+    }
+
+    generateGrid(size);
+
+
+
+    const clear = document.querySelector("#clear");
+    clear.addEventListener('click', function(e) {
+        const pixels = document.querySelectorAll('.pixel');
+        pixels.forEach(pixel => {
+            pixel.classList.remove('filledIn');
+        });
+    });
+
+
+
+    const slider = document.querySelector(".slider");
+    slider.addEventListener('change', function(e){
+        size = e.target.value;
+        resizeGrid(e.target.value);
+        sizeText.textContent = String(size) + " x " + String(size);
+    });
+
+    const controls = document.querySelector('#controls');
+    const sizeText = document.createElement('div');
+    sizeText.textContent = String(size) + " x " + String(size);
+
+    controls.appendChild(sizeText);
+
+
+
+
+</script>
+
+
+
+</html>
